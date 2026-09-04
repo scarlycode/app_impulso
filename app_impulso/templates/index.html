@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+    <p class="hero-mensaje">{{ mensaje }}</p>
+    <a href="{{ url_for('nuevo_habito') }}" class="btn-primary">+ Nuevo hábito</a>
+</section>
+
+<section class="habitos-grid">
+    {% if habitos|length == 0 %}
+        <div class="empty-state">
+            <p>Aún no tienes hábitos.</p>
+            <p>Crea el primero y comienza tu racha hoy. 🔥</p>
+        </div>
+    {% endif %}
+
+    {% for habito in habitos %}
+    <article class="habito-card" data-habito-id="{{ habito.id }}">
+
+        <div class="habito-header">
+            <h3>{{ habito.nombre }}</h3>
+            <button class="btn-eliminar" data-habito-id="{{ habito.id }}" title="Eliminar hábito">✕</button>
+        </div>
+
+        {% if habito.descripcion %}
+            <p class="habito-descripcion">{{ habito.descripcion }}</p>
+        {% endif %}
+
+        <div class="racha-display">
+            <span class="racha-emoji">🔥</span>
+            <span class="racha-numero">{{ habito.racha }}</span>
+            <span class="racha-label">
+                {% if habito.racha == 1 %}día de racha{% else %}días de racha{% endif %}
+            </span>
+        </div>
+
+        <div class="dias-semana">
+            {% for dia in habito.ultimos_7_dias %}
+                <span class="dia-indicador {% if dia.cumplido %}dia-cumplido{% else %}dia-pendiente{% endif %}"
+                      title="{{ dia.fecha.strftime('%d/%m') }}">
+                </span>
+            {% endfor %}
+        </div>
+
+        <button class="btn-completar" data-habito-id="{{ habito.id }}">
+            Marcar como cumplido hoy
+        </button>
+
+        <div class="feedback-positivo" hidden>¡Bien hecho! 🔥</div>
+
+    </article>
+    {% endfor %}
+</section>
+
+<form id="form-eliminar" method="POST" style="display:none;"></form>
+
+{% endblock %}

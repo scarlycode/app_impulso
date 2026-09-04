@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="form-section">
+    <a href="{{ url_for('index') }}" class="link-volver">← Volver</a>
+
+    <h2>Crea un nuevo hábito</h2>
+    <p class="form-subtitulo">Define algo pequeño y constante. Los grandes cambios empiezan así.</p>
+
+    <form method="POST" class="form-habito">
+        <label for="nombre">Nombre del hábito</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej. Leer 10 páginas" required maxlength="80">
+
+        <label for="descripcion">Descripción (opcional)</label>
+        <textarea id="descripcion" name="descripcion" placeholder="Ej. Antes de dormir, sin pantallas" maxlength="200"></textarea>
+
+        <button type="submit" class="btn-primary btn-full">Crear hábito 🔥</button>
+    </form>
+</section>
+
+{% endblock %}
